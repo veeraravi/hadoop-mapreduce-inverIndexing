@@ -1,0 +1,32 @@
+package com.org.kelly.inverse.mr.job;
+
+import java.io.IOException;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Reducer;
+
+public class InverseReducer extends Reducer<Text, Text, Text, Text> {
+
+	@Override
+	protected void reduce(Text key, Iterable<Text> value,
+			Reducer<Text, Text, Text, Text>.Context context) throws IOException,
+			InterruptedException {
+		
+		Text temLocation = new Text();
+		Set<String> locationSet =  new TreeSet<String>();
+		while(value.iterator().hasNext())
+		{
+			
+			locationSet.add( value.iterator().next().toString());
+			
+			
+		}
+		temLocation.set(locationSet.toString());
+		context.write(key, temLocation);
+	}
+}
